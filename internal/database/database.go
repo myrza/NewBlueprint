@@ -3,24 +3,43 @@ package database
 import (
 	"context"
 	"database/sql"
+
+	"net/http"
+
 	"fmt"
 	"log"
+
 	"os"
 	"strconv"
 	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/joho/godotenv/autoload"
+	_ "github.com/lib/pq"
 )
 
 // Service represents a service that interacts with a database.
 type Service interface {
 	// Health returns a map of health status information.
 	// The keys and values in the map are service-specific.
+	DbStructure() interface{}
 	Health() map[string]string
 
-	// Close terminates the database connection.
-	// It returns an error if the connection cannot be closed.
+	GetAuthors() interface{}
+	GetAuthor(r *http.Request) interface{}
+	CreateAuthor(r *http.Request) interface{}
+	UpdateAuthor(r *http.Request) interface{}
+	DeleteAuthor(r *http.Request) interface{}
+
+	GetBooks() interface{}
+	GetBook(r *http.Request) interface{}
+	CreateBook(r *http.Request) interface{}
+	UpdateBook(r *http.Request) interface{}
+	DeleteBook(r *http.Request) interface{}
+
+	GetBookAndAuthor(r *http.Request) interface{}
+	UpdateBookAndAuthor(r *http.Request) interface{}
+
 	Close() error
 }
 
@@ -112,4 +131,21 @@ func (s *service) Health() map[string]string {
 func (s *service) Close() error {
 	log.Printf("Disconnected from database: %s", database)
 	return s.db.Close()
+}
+func (s *service) DbStructure() interface{} {
+	// create table if not exists
+	type message struct {
+		Message string `json:"Message"`
+	}
+	m := message{}
+	_, err := s.db.Exec("CREATE TABLE IF NOT EXISTS authors (id SERIAL PRIMARY KEY, name TEXT, surname TEXT, biography TEXT, birthday DATE)")
+	if err != nil {
+		return err
+	}
+	_, err = s.db.Exec("CREATE TABLE IF NOT EXISTS books (id SERIAL PRIMARY KEY, title TEXT, authorid INTEGER, isbn TEXT, year INTEGER)")
+	if err != nil {
+		return err
+	}
+	m.Message = "Структура базы данных создана"
+	return m
 }

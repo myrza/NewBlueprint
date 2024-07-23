@@ -11,11 +11,12 @@ RUN rm -f go.mod rm go.sum
 RUN go mod init app
 RUN go mod tidy
 
+
 # Build the go app
 #RUN go build -o api cmd/api/main.go 
 #RUN  go build -o ./ cmd/api/main.go 
 RUN go build -o ./api  cmd/api/main.go 
 
-EXPOSE 8000
+EXPOSE 8080
 
 CMD ["./api"]

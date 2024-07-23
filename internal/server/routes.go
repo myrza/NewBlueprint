@@ -14,7 +14,22 @@ func (s *Server) RegisterRoutes() http.Handler {
 	r.HandleFunc("/", s.HelloWorldHandler)
 
 	r.HandleFunc("/health", s.healthHandler)
+	r.HandleFunc("/create_db", s.dbStructure)
 
+	r.HandleFunc("/authors", s.getAuthors)
+	r.HandleFunc("/create_author", s.createAuthor)
+	r.HandleFunc("/update_author/{id}", s.updateAuthor)
+	r.HandleFunc("/author/{id}", s.getAuthor)
+	r.HandleFunc("/delete_author/{id}", s.deleteAuthor)
+
+	r.HandleFunc("/books", s.getBooks)
+	r.HandleFunc("/create_book", s.createBook)
+	r.HandleFunc("/update_book/{id}", s.updateBook)
+	r.HandleFunc("/book/{id}", s.getBook)
+	r.HandleFunc("/delete_book/{id}", s.deleteBook)
+
+	r.HandleFunc("/books_author/{id}", s.getBookAndAuthor)
+	r.HandleFunc("/update_books_author/{id}", s.updateBookAndAuthor)
 	return r
 }
 
@@ -32,6 +47,16 @@ func (s *Server) HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) healthHandler(w http.ResponseWriter, r *http.Request) {
 	jsonResp, err := json.Marshal(s.db.Health())
+
+	if err != nil {
+		log.Fatalf("error handling JSON marshal. Err: %v", err)
+	}
+
+	_, _ = w.Write(jsonResp)
+}
+
+func (s *Server) dbStructure(w http.ResponseWriter, r *http.Request) {
+	jsonResp, err := json.Marshal(s.db.DbStructure())
 
 	if err != nil {
 		log.Fatalf("error handling JSON marshal. Err: %v", err)

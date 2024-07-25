@@ -7,10 +7,6 @@ services:
     build:
       context: .
       dockerfile: go.dockerfile
-    environment:
-      DATABASE_URL: 'postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}?sslmode=disable&search_path=${DB_SCHEMA}'  
-
-      #DATABASE_URL: 'postgres://dom:password1234@localhost:5432/library?sslmode=disable&search_path=public'
     ports:
       - '8000:8000'
     depends_on:
@@ -24,6 +20,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
+      #- "5430:5432"
     volumes:
       - psql_volume:/var/lib/postgresql/data
 

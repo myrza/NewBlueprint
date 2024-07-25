@@ -28,8 +28,8 @@ func (s *Server) RegisterRoutes() http.Handler {
 	r.HandleFunc("/book/{id}", s.getBook)
 	r.HandleFunc("/delete_book/{id}", s.deleteBook)
 
-	r.HandleFunc("/books_author/{id}", s.getBookAndAuthor)
-	r.HandleFunc("/update_books_author/{id}", s.updateBookAndAuthor)
+	r.HandleFunc("/book_author/{id}", s.getBookAndAuthor)
+	r.HandleFunc("/update_book_author/{id}", s.updateBookAndAuthor)
 	return r
 }
 

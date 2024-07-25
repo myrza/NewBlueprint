@@ -1,31 +1,17 @@
+#FROM golang:1.16.3-alpine3.13
 FROM golang:latest as build
 
-#WORKDIR /app
-WORKDIR /myapp
-
-# Copy the Go module files
-COPY go.mod .
-COPY go.sum .
-
-# Download the Go module dependencies
-RUN go mod download
+WORKDIR /api
 
 COPY . .
 
-RUN go build -o /myapp ./cmd/api
+# Download and install the dependencies:
+RUN go get -d -v ./...
 
-FROM alpine:latest as run
-
-# Copy the application executable from the build image
-#COPY --from=build /app /app
+# Build the go app
+RUN go build -o api cmd/api/main.go 
 
 
-WORKDIR /myapp
+EXPOSE 8000
 
-EXPOSE $PORT
-
-RUN chmod +x /myapp
-RUN  chmod a+x /myapp
-#CMD ["./app"]
-#ENTRYPOINT ["/myapp"]
-ENTRYPOINT ["/myapp"]
+CMD ["./api"]

@@ -1,4 +1,4 @@
-module NewBlueprint
+module newblueprint
 
 go 1.20
 

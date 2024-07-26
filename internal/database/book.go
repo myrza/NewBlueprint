@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"NewBlueprint/internal/types"
+	"newblueprint/internal/types"
 
 	"github.com/gorilla/mux"
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -21,9 +21,9 @@ func (s *service) CreateBook(r *http.Request) interface{} {
 		return err
 	}
 
-	//m.Message = "Автор успешно создан. Новый идентификатор"
 	return b
 }
+
 func (s *service) GetBook(r *http.Request) interface{} {
 	//m := types.ReturnMessage{}
 	vars := mux.Vars(r)
@@ -37,6 +37,7 @@ func (s *service) GetBook(r *http.Request) interface{} {
 
 	return b
 }
+
 func (s *service) UpdateBook(r *http.Request) interface{} {
 
 	var b types.Book
@@ -53,6 +54,7 @@ func (s *service) UpdateBook(r *http.Request) interface{} {
 
 	return b
 }
+
 func (s *service) GetBooks() interface{} {
 	rows, err := s.db.Query("SELECT * FROM books")
 	if err != nil {
@@ -75,6 +77,7 @@ func (s *service) GetBooks() interface{} {
 
 	return books
 }
+
 func (s *service) DeleteBook(r *http.Request) interface{} {
 	m := types.ReturnMessage{}
 

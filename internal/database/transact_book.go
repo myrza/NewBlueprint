@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"NewBlueprint/internal/types"
+	"newblueprint/internal/types"
 
 	"github.com/gorilla/mux"
 	_ "github.com/jackc/pgx/v5/stdlib"

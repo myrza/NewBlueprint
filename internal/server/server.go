@@ -9,7 +9,7 @@ import (
 
 	_ "github.com/joho/godotenv/autoload"
 
-	"NewBlueprint/internal/database"
+	"newblueprint/internal/database"
 )
 
 type Server struct {
@@ -26,7 +26,6 @@ func NewServer() *http.Server {
 		db: database.New(),
 	}
 
-	// Declare Server config
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", newSrv.port),
 		Handler:      newSrv.RegisterRoutes(),

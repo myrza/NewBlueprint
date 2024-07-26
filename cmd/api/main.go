@@ -1,8 +1,8 @@
 package main
 
 import (
-	"NewBlueprint/internal/server"
 	"fmt"
+	"newblueprint/internal/server"
 )
 
 func main() {

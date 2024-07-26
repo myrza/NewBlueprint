@@ -2,25 +2,24 @@
 
 services:
   goapp:
-    container_name: api
-    image: api:1.0.0
+    container_name: apibl
+    image: apibl:1.0.0
     build:
       context: .
       dockerfile: go.dockerfile
     ports:
-      - '8000:8000'
+      - '8080:8080'
     depends_on:
-      - psql
+      - psqlbl
 
-  psql:
+  psqlbl:
     image: postgres:latest
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5432:5432"
-      #- "5430:5432"
+      - "5433:5433"
     volumes:
       - psql_volume:/var/lib/postgresql/data
 
